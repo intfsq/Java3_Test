@@ -15,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
-
-
 /**
  *
  * @author PS19229 - TRANHOANGTHUYVAN
@@ -24,6 +22,7 @@ import javax.swing.Timer;
  */
 public class HelloForm extends javax.swing.JFrame {
     ArrayList<String> list = new ArrayList<>();
+    int a = 19;
     /** Creates new form HelloForm */
     public HelloForm() {
         initComponents();
@@ -54,7 +53,6 @@ public class HelloForm extends javax.swing.JFrame {
         for(String i : list) {
             s.append(i).append("<br>");
         }
-        
         lblSub.setText(String.format("<html>%s</html>", s.toString()));
     }
     
