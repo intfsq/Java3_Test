@@ -22,7 +22,7 @@ import javax.swing.Timer;
  */
 public class HelloForm extends javax.swing.JFrame {
     ArrayList<String> list = new ArrayList<>();
-    int a = 0;
+    int a = 122;
     /** Creates new form HelloForm */
     public HelloForm() {
         initComponents();
