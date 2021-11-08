@@ -4,13 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
 
@@ -19,7 +28,7 @@ import javax.swing.Timer;
  * @author PS19229 - TRANHOANGTHUYVAN
  */
 public class HelloForm extends javax.swing.JFrame {
-
+    ArrayList<String> list = new ArrayList<>();
     /** Creates new form HelloForm */
     public HelloForm() {
         initComponents();
@@ -29,20 +38,58 @@ public class HelloForm extends javax.swing.JFrame {
         Image scaled = i.getImage().getScaledInstance(lblMain.getWidth(), lblMain.getHeight(),Image.SCALE_REPLICATE);
         lblMain.setIcon(new ImageIcon(scaled));
 //        lblSub.setOpaque(false);
-        lblSub.setText("<html><b>mama</b></html>");
+//        lblSub.setText("<html><b>mama</b></html>");
+        lblSub.setText("aa\nbbb\ncc");
 //        lblSub.add(new JLabel("mel"));
         JLabel s = new JLabel("");
         s.setText("mellll");
         s.setForeground(Color.red);
         s.setPreferredSize(new Dimension(101,101));
-        add(s,);
-        setLayout(new GroupLayout(this));
+        setActionListenerForCheck();
+//        this.getContentPane().setForecolor(Color.BLACK);
+
+//        setLayout(new GroupLayout(this));
 //        pack();
 //        autoClosed(0);
         
 //        lblMain.setIcon(i);
     }
+    public void showInSub() {
+        StringBuilder s = new StringBuilder();
+        for(String i : list) {
+            s.append(i).append("<br>");
+        }
+        
+        lblSub.setText(String.format("<html>%s</html>", s.toString()));
+    }
     
+    public void addToList(String item) {
+        list.add(item);
+    }
+    
+    public void removeFromList(String text) {
+//        Iterator<String> iterator = list.iterator();
+//        while(iterator.hasNext()) {
+//            if(iterator.next().equals(text)) {
+//                list.remove(text);
+//                break;
+//            }
+//        }
+                list.remove(text);
+    }
+      
+    public void setActionListenerForCheck() {
+
+        chkApple.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JCheckBox c = (JCheckBox) e.getSource();
+                if(c.isSelected()) addToList(c.getText());
+                else removeFromList(c.getText());
+                showInSub();
+               }
+           });
+    }
     public void autoClosed(int delay) {
         if(delay == 0) return;
         new Timer(delay,(e) -> System.exit(0)).start();
@@ -94,11 +141,30 @@ public class HelloForm extends javax.swing.JFrame {
 
         lblMain = new javax.swing.JLabel();
         lblSub = new javax.swing.JLabel();
+        chkApple = new javax.swing.JCheckBox();
+        chkLemon = new javax.swing.JCheckBox();
+        chkBanana = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lblSub.setBackground(new java.awt.Color(255, 153, 204));
         lblSub.setOpaque(true);
+
+        chkApple.setText("Apple");
+        chkApple.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                chkAppleKeyPressed(evt);
+            }
+        });
+
+        chkLemon.setText("Lemon");
+        chkLemon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkLemonActionPerformed(evt);
+            }
+        });
+
+        chkBanana.setText("Banana");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -110,8 +176,14 @@ public class HelloForm extends javax.swing.JFrame {
                     .addComponent(lblMain, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(lblSub, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                        .addComponent(lblSub, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chkBanana)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(chkApple)
+                                .addComponent(chkLemon, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,12 +191,29 @@ public class HelloForm extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addComponent(lblMain, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSub, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSub, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(chkApple)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chkLemon)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkBanana)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void chkLemonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLemonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkLemonActionPerformed
+
+    private void chkAppleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_chkAppleKeyPressed
+        if(evt.getKeyChar() == KeyEvent.VK_A) {
+            
+        }
+    }//GEN-LAST:event_chkAppleKeyPressed
 
     /**
      * @param args the command line arguments
@@ -165,6 +254,9 @@ public class HelloForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox chkApple;
+    private javax.swing.JCheckBox chkBanana;
+    private javax.swing.JCheckBox chkLemon;
     private javax.swing.JLabel lblMain;
     private javax.swing.JLabel lblSub;
     // End of variables declaration//GEN-END:variables
